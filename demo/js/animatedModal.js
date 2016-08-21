@@ -37,6 +37,8 @@
             
 
         }, options);
+
+        var opened = false;
         
         var closeBt = $('.close-'+settings.modalTarget);
 
@@ -67,6 +69,10 @@
         id.css(initStyles);
 
         modal.click(function(event) {       
+            if(opened){
+              return;            
+            }
+            opened = true;
             event.preventDefault();
             $('body, html').css({'overflow':'hidden'});
             if (href == idConc) {
@@ -88,6 +94,10 @@
 
 
         closeBt.click(function(event) {
+            if(!opened){
+              return;
+            }
+            opened = false;
             event.preventDefault();
             $('body, html').css({'overflow':'auto'});
 
@@ -106,7 +116,9 @@
         });
 
         function afterClose () {       
-            id.css({'z-index':settings.zIndexOut});
+            if(!opened){
+              id.css({'z-index':settings.zIndexOut});
+            }
             settings.afterClose(); //afterClose
         }
 
